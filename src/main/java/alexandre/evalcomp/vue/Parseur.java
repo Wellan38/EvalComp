@@ -255,14 +255,14 @@ public class Parseur {
 
                     case CompetenceG:
                         // CompetenceG
-                        serv.creerCompetenceG(elements[0], elements[1], elements[2], elements[3], Double.parseDouble(elements[4]), Double.parseDouble(elements[5]), new ArrayList());
+                        serv.creerCompetenceG(elements[0], elements[1], elements[2], Double.parseDouble(elements[3]), Double.parseDouble(elements[4]), new ArrayList());
 
                         break;
                         
                     case CompetenceS:
                         //CompetenceS
                         System.out.println(elements[5]);
-                        CompetenceS cs = serv.creerCompetenceS(elements[0], elements[1], elements[2], elements[3], Double.parseDouble(elements[4]), serv.trouverRegleParId(elements[6]));
+                        CompetenceS cs = serv.creerCompetenceS(elements[0], elements[1], elements[2], Double.parseDouble(elements[3]), serv.trouverRegleParId(elements[5]));
                         cg = serv.trouverCompetenceGParId(elements[5]);
                         serv.ajouterCompetenceS(cg, cs);
                         

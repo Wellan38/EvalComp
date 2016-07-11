@@ -27,7 +27,6 @@ public class CompetenceG implements Serializable
     
     private String libelle;
     private String type;
-    private String propriete;
     private Double seuilMin;
     private Double seuilMax;
     
@@ -40,11 +39,10 @@ public class CompetenceG implements Serializable
 
     public CompetenceG() {}
 
-    public CompetenceG(String id, String libelle, String type, String propriete, double seuilMin, double seuilMax, List<CompetenceS> compSpec) {
+    public CompetenceG(String id, String libelle, String type, double seuilMin, double seuilMax, List<CompetenceS> compSpec) {
         this.id = id;
         this.libelle = libelle;
         this.type = type;
-        this.propriete = propriete;
         this.seuilMin = seuilMin;
         this.seuilMax = seuilMax;
         this.compSpec = compSpec;
@@ -62,10 +60,6 @@ public class CompetenceG implements Serializable
 
     public String getType() {
         return type;
-    }
-
-    public String getPropriete() {
-        return propriete;
     }
 
     public Double getSeuilMin() {
@@ -90,10 +84,6 @@ public class CompetenceG implements Serializable
         this.type = type;
     }
 
-    public void setPropriete(String propriete) {
-        this.propriete = propriete;
-    }
-
     public void setSeuilMin(Double seuilMin) {
         this.seuilMin = seuilMin;
     }
@@ -106,7 +96,7 @@ public class CompetenceG implements Serializable
 
     @Override
     public String toString() {
-        return "CompetenceG{" + "id=" + id + ", libelle=" + libelle + ", type=" + type + ", propriete=" + propriete + ", seuilMin=" + seuilMin + ", seuilMax=" + seuilMax + ", compSpec=" + compSpec + '}';
+        return "CompetenceG{" + "id=" + id + ", libelle=" + libelle + ", type=" + type + ", seuilMin=" + seuilMin + ", seuilMax=" + seuilMax + ", compSpec=" + compSpec + '}';
     }
     
     public Boolean equals(CompetenceG c)

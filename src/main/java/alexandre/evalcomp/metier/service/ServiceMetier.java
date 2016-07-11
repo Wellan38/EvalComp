@@ -93,11 +93,11 @@ public class ServiceMetier
      * @throws java.lang.Throwable
      */
     
-    public CompetenceG creerCompetenceG(String id, String libelle, String type, String propriete, Double seuilMin, Double seuilMax, List<CompetenceS> compSpec) throws Throwable
+    public CompetenceG creerCompetenceG(String id, String libelle, String type, Double seuilMin, Double seuilMax, List<CompetenceS> compSpec) throws Throwable
     {
         if (trouverCompetenceGParId(id) == null)
         {
-            CompetenceG c = new CompetenceG(id, libelle, type, propriete, seuilMin, seuilMax, compSpec);
+            CompetenceG c = new CompetenceG(id, libelle, type, seuilMin, seuilMax, compSpec);
 
             if (creerObjet(c))
             {
@@ -126,11 +126,11 @@ public class ServiceMetier
      * @throws java.lang.Throwable
      */
     
-    public CompetenceS creerCompetenceS(String id, String libelle, String type, String propriete, Double ponderation, Regle regle) throws Throwable
+    public CompetenceS creerCompetenceS(String id, String libelle, String type, Double ponderation, Regle regle) throws Throwable
     {
         if (trouverCompetenceSParId(id) == null)
         {
-            CompetenceS c = new CompetenceS(id, libelle, type, propriete, ponderation, regle);
+            CompetenceS c = new CompetenceS(id, libelle, type, ponderation, regle);
 
             if (creerObjet(c))
             {

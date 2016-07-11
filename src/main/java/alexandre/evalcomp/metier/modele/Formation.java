@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 
 /**
@@ -36,7 +37,7 @@ public class Formation implements Serializable
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
     
-    @ManyToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
     private List<CompetenceG> competences;
     
     @ManyToMany(fetch = FetchType.EAGER)

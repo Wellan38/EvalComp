@@ -26,7 +26,6 @@ public class CompetenceS implements Serializable
     
     private String libelle;
     private String type;
-    private String propriete;
     private Double ponderation;
     
     @ManyToOne
@@ -44,11 +43,10 @@ public class CompetenceS implements Serializable
     
     public CompetenceS() {}
 
-    public CompetenceS(String id, String libelle, String type, String propriete, Double ponderation, Regle regle) {
+    public CompetenceS(String id, String libelle,  String type, Double ponderation, Regle regle) {
         this.id = id;
         this.libelle = libelle;
         this.type = type;
-        this.propriete = propriete;
         this.ponderation = ponderation;
         this.regle = regle;
     }
@@ -66,11 +64,7 @@ public class CompetenceS implements Serializable
     public String getType() {
         return type;
     }
-
-    public String getPropriete() {
-        return propriete;
-    }
-
+    
     public Double getPonderation() {
         return ponderation;
     }
@@ -96,11 +90,7 @@ public class CompetenceS implements Serializable
     public void setType(String type) {
         this.type = type;
     }
-
-    public void setPropriete(String propriete) {
-        this.propriete = propriete;
-    }
-
+    
     public void setPonderation(Double ponderation) {
         this.ponderation = ponderation;
     }
@@ -121,7 +111,7 @@ public class CompetenceS implements Serializable
 
     @Override
     public String toString() {
-        return "CompetenceS{" + "id=" + id + ", libelle=" + libelle + ", type=" + type + ", propriete=" + propriete + ", ponderation=" + ponderation + ", miseEnSituation=" + miseEnSituation + '}';
+        return "CompetenceS{" + "id=" + id + ", libelle=" + libelle + ", type=" + type + ", ponderation=" + ponderation + ", miseEnSituation=" + miseEnSituation + '}';
     }
     
     public Boolean equals(CompetenceS c)
