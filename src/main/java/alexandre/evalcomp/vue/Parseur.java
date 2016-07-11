@@ -263,7 +263,7 @@ public class Parseur {
                         //CompetenceS
                         System.out.println(elements[5]);
                         CompetenceS cs = serv.creerCompetenceS(elements[0], elements[1], elements[2], Double.parseDouble(elements[3]), serv.trouverRegleParId(elements[5]));
-                        cg = serv.trouverCompetenceGParId(elements[5]);
+                        cg = serv.trouverCompetenceGParId(elements[4]);
                         serv.ajouterCompetenceS(cg, cs);
                         
                         break;
