@@ -43,7 +43,6 @@ public class Parseur {
         CompetenceS,
         Formation,
         Formation_CompetenceG,
-        MiseEnSituation,
         Personne,
         Score,
         Apprenant_Formation,
@@ -69,7 +68,6 @@ public class Parseur {
             System.out.println("3. CompetenceS");
             System.out.println("4. Formation");
             System.out.println("5. Formation_CompetenceG");
-            System.out.println("6. MiseEnSituation");
             System.out.println("7. Personne");
             System.out.println("8. Score");
             System.out.println("9. Apprenant_Formation");
@@ -117,11 +115,6 @@ public class Parseur {
                 
                 break;
                 
-            case 6:
-                parser(TypeParse.MiseEnSituation);
-                
-                break;
-                
             case 7:
                 parser(TypeParse.Personne);
                 
@@ -154,7 +147,6 @@ public class Parseur {
                 parser(TypeParse.Formation_CompetenceG);
                 parser(TypeParse.Regle);
                 parser(TypeParse.CompetenceS);
-                parser(TypeParse.MiseEnSituation);
 //                parser(TypeParse.Personne);
 //                parser(TypeParse.Personne_Formation);
 //                parser(TypeParse.Score);
@@ -193,10 +185,6 @@ public class Parseur {
                 
             case Formation_CompetenceG:
                 nomFichier += "Formation_CompetenceG.csv";
-                break;
-                
-            case MiseEnSituation:
-                nomFichier += "MiseEnSituation.csv";
                 break;
                 
             case Personne:
