@@ -9,7 +9,6 @@ import alexandre.evalcomp.metier.modele.Apprenant;
 import alexandre.evalcomp.metier.modele.CompetenceG;
 import alexandre.evalcomp.metier.modele.CompetenceS;
 import alexandre.evalcomp.metier.modele.Formation;
-import alexandre.evalcomp.metier.modele.MiseEnSituation;
 import alexandre.evalcomp.metier.modele.Personne;
 import alexandre.evalcomp.metier.service.ServiceMetier;
 import java.io.BufferedReader;
@@ -262,7 +261,7 @@ public class Parseur {
                     case CompetenceS:
                         //CompetenceS
                         System.out.println(elements[5]);
-                        CompetenceS cs = serv.creerCompetenceS(elements[0], elements[1], elements[2], Double.parseDouble(elements[3]), serv.trouverRegleParId(elements[5]));
+                        CompetenceS cs = serv.creerCompetenceS(elements[0], elements[1], elements[2], Double.parseDouble(elements[3]), serv.trouverRegleParId(elements[5]), elements[6]);
                         cg = serv.trouverCompetenceGParId(elements[4]);
                         serv.ajouterCompetenceS(cg, cs);
                         
@@ -280,23 +279,6 @@ public class Parseur {
                         f = serv.trouverFormationParId(elements[0]);
                         cg = serv.trouverCompetenceGParId(elements[1]);
                         serv.ajouterCompetenceG(f, cg);
-                        
-                        break;
-                        
-                    case MiseEnSituation:
-                        // MiseEnSituation
-                        
-                        List<String> description = new ArrayList();
-                        
-                        for (int i = 1; i < elements.length; i++)
-                        {
-                            description.add(elements[i]);
-                        }
-                        
-                        MiseEnSituation m = serv.creerMiseEnSituation(description);
-                        
-                        cs = serv.trouverCompetenceSParId(elements[0]);
-                        serv.assignerMiseEnSituation(cs, m);
                         
                         break;
                     

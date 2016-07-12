@@ -5,32 +5,13 @@
  */
 package alexandre.evalcomp.metier.service; 
 
-import alexandre.evalcomp.dao.JpaUtil;
-import alexandre.evalcomp.dao.ApprenantDao;
-import alexandre.evalcomp.dao.CompetenceGDao;
-import alexandre.evalcomp.dao.CompetenceSDao;
-import alexandre.evalcomp.dao.FormationDao;
-import alexandre.evalcomp.dao.MiseEnSituationDao;
-import alexandre.evalcomp.dao.GradeDao;
-import alexandre.evalcomp.dao.PersonneDao;
-import alexandre.evalcomp.dao.RegleDao;
-import alexandre.evalcomp.dao.ScoreDao;
-import alexandre.evalcomp.metier.modele.Apprenant;
-import alexandre.evalcomp.metier.modele.CompetenceG;
-import alexandre.evalcomp.metier.modele.CompetenceS;
-import alexandre.evalcomp.metier.modele.Personne;
+import alexandre.evalcomp.dao.*;
+import alexandre.evalcomp.metier.modele.*;
 import alexandre.evalcomp.metier.modele.Personne.TypePersonne;
-import alexandre.evalcomp.metier.modele.Formation;
-import alexandre.evalcomp.metier.modele.MiseEnSituation;
-import alexandre.evalcomp.metier.modele.Regle;
-import alexandre.evalcomp.metier.modele.Calcul;
-import alexandre.evalcomp.metier.modele.Grade;
-import alexandre.evalcomp.metier.modele.Score;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import javax.persistence.OptimisticLockException;
 
 /**
@@ -126,11 +107,11 @@ public class ServiceMetier
      * @throws java.lang.Throwable
      */
     
-    public CompetenceS creerCompetenceS(String id, String libelle, String type, Double ponderation, Regle regle) throws Throwable
+    public CompetenceS creerCompetenceS(String id, String libelle, String type, Double ponderation, Regle regle, String miseEnSituation) throws Throwable
     {
         if (trouverCompetenceSParId(id) == null)
         {
-            CompetenceS c = new CompetenceS(id, libelle, type, ponderation, regle);
+            CompetenceS c = new CompetenceS(id, libelle, type, ponderation, regle, miseEnSituation);
 
             if (creerObjet(c))
             {
@@ -229,20 +210,6 @@ public class ServiceMetier
             {
                 return null;
             }
-        }
-        else
-        {
-            return null;
-        }
-    }
-    
-    public MiseEnSituation creerMiseEnSituation(List<String> description) throws Throwable
-    {
-        MiseEnSituation m = new MiseEnSituation(description);
-        
-        if (creerObjet(m))
-        {
-            return m;
         }
         else
         {
@@ -914,25 +881,6 @@ public class ServiceMetier
         JpaUtil.fermerEntityManager();
         
         return regles;
-    }
-    
-    /**
-     * Cette méthode permet de lister toutes les mises en situation existantes.
-     * @return Renvoie la liste des mises en situation.
-     * @throws java.lang.Throwable
-     */
-    
-    public List<MiseEnSituation> listerMiseEnSituation() throws Throwable
-    {
-        JpaUtil.creerEntityManager();
-        
-        MiseEnSituationDao dao = new MiseEnSituationDao();
-        
-        List<MiseEnSituation> misesEnSituation = dao.findAll();
-        
-        JpaUtil.fermerEntityManager();
-        
-        return misesEnSituation;
     }
     
     /**
@@ -1629,10 +1577,6 @@ public class ServiceMetier
             {
                 new FormationDao().create((Formation)o);
             }
-            else if (o instanceof MiseEnSituation)
-            {
-                new MiseEnSituationDao().create((MiseEnSituation)o);
-            }
             else if (o instanceof Personne)
             {
                 new PersonneDao().create((Personne)o);
@@ -1692,10 +1636,6 @@ public class ServiceMetier
             {
                 new FormationDao().update((Formation)o);
             }
-            else if (o instanceof MiseEnSituation)
-            {
-                new MiseEnSituationDao().update((MiseEnSituation)o);
-            }
             else if (o instanceof Personne)
             {
                 new PersonneDao().update((Personne)o);
@@ -1754,10 +1694,6 @@ public class ServiceMetier
             else if (o instanceof Formation)
             {
                 new FormationDao().remove((Formation)o);
-            }
-            else if (o instanceof MiseEnSituation)
-            {
-                new MiseEnSituationDao().remove((MiseEnSituation)o);
             }
             else if (o instanceof Personne)
             {
@@ -1840,20 +1776,6 @@ public class ServiceMetier
             responsables.add(p);
             
             return majObjet(p);
-        }
-    }
-    
-    public Boolean assignerMiseEnSituation(CompetenceS c, MiseEnSituation m) throws Throwable
-    {
-        if (c == null || m == null)
-        {
-            return false;
-        }
-        else
-        {
-            c.setMiseEnSituation(m);
-            
-            return majObjet(c);
         }
     }
 }
