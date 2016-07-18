@@ -19,7 +19,6 @@ import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -72,7 +71,6 @@ public class Parseur {
             System.out.println("8. Score");
             System.out.println("9. Apprenant_Formation");
             System.out.println("10. Personne_Formation");
-            System.out.println("11. Regle");
             System.out.println("12. Tout");
 
             choix = sc.nextInt();
@@ -134,10 +132,6 @@ public class Parseur {
                 parser(TypeParse.Personne_Formation);
                 
                 break;
-            case 11:
-                parser(TypeParse.Regle);
-                
-                break;
                 
             case 12:
                 parser(TypeParse.Apprenant);
@@ -145,7 +139,6 @@ public class Parseur {
                 parser(TypeParse.CompetenceG);
                 parser(TypeParse.Apprenant_Formation);
                 parser(TypeParse.Formation_CompetenceG);
-                parser(TypeParse.Regle);
                 parser(TypeParse.CompetenceS);
 //                parser(TypeParse.Personne);
 //                parser(TypeParse.Personne_Formation);
@@ -202,11 +195,6 @@ public class Parseur {
                 
             case Personne_Formation:
                 nomFichier += "Personne_Formation.csv";
-                
-                break;
-                
-            case Regle:
-                nomFichier += "Regle.csv";
                 
                 break;
                 
@@ -313,18 +301,6 @@ public class Parseur {
 //                        serv.assignerFormation(p, f);
 //                        
 //                        break;
-                        
-                    case Regle :
-                        // Regle
-                        
-                        List<String> texte = new ArrayList();
-                        
-                        for (int i = 2; i < elements.length; i++)
-                        {
-                            texte.add(elements[i]);
-                        }
-                        
-                        serv.creerRegle(elements[0], elements[1], texte);
                 }
             }
         }

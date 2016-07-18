@@ -18,33 +18,25 @@ import javax.persistence.Id;
  */
 
 @Entity
-public class Regle implements Serializable
+public class RulePattern implements Serializable
 {
-    //---------------------------- Attributs -----------------------------------
-    
     @Id
-    protected String id;
+    private String id;
     
     private String libelle;
     
-    private RulePattern pattern;
-    
     private List<Pair<String, Integer>> cas;
-    
-    //------------------------ Méthodes publiques ------------------------------
 
-    // Constructeurs
-    
-    public Regle() {
+    public RulePattern() {
     }
 
-    public Regle(String id, String libelle, RulePattern pattern, List<Pair<String, Integer>> cas) {
+    public RulePattern(String id, String libelle, List<Pair<String, Integer>> cas) {
         this.id = id;
         this.libelle = libelle;
-        this.pattern = pattern;
         this.cas = cas;
     }
-    public String getId() {    
+
+    public String getId() {
         return id;
     }
 
@@ -52,29 +44,26 @@ public class Regle implements Serializable
         return libelle;
     }
 
-    public RulePattern getPattern() {
-        return pattern;
-    }
-
-    // Getters
-    public List<Pair<String, Integer>> getCas() {    
+    public List<Pair<String, Integer>> getCas() {
         return cas;
     }
 
-    // Setters
-    public void setPattern(RulePattern pattern) {
-        this.pattern = pattern;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setLibelle(String libelle) {
         this.libelle = libelle;
     }
-        
-    // Autres méthodes publiques
+
+    @Override
+    public String toString() {
+        return "RulePattern{" + "id=" + id + ", libelle=" + libelle + ", cas=" + cas + '}';
+    }
 
     @Override
     public int hashCode() {
-        int hash = 5;
+        int hash = 7;
         return hash;
     }
 
@@ -89,15 +78,12 @@ public class Regle implements Serializable
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Regle other = (Regle) obj;
+        final RulePattern other = (RulePattern) obj;
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
     }
-
-    @Override
-    public String toString() {
-        return "Regle{" + "id=" + id + ", libelle=" + libelle + ", pattern=" + pattern + ", cas=" + cas + '}';
-    }
+    
+    
 }

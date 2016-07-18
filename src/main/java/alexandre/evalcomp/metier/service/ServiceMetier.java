@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import javafx.util.Pair;
 import javax.persistence.OptimisticLockException;
 
 /**
@@ -187,6 +188,27 @@ public class ServiceMetier
         }
     }
     
+    public RulePattern creerRulePattern(String id, String libelle, List<Pair<String, Integer>> cas) throws Throwable
+    {
+        if (trouverRulePatternParId(id) == null)
+        {
+            RulePattern r = new RulePattern(id, libelle, cas);
+
+            if (creerObjet(r))
+            {
+                return r;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
     /**
      * Cette méthode permet de créer une nouvelle règle de calcul.
      * Il est possible de créer plusieurs règles portant le même nom.
@@ -196,11 +218,11 @@ public class ServiceMetier
      * @throws java.lang.Throwable
      */
     
-    public Regle creerRegle(String id, String libelle, List<String> texte) throws Throwable
+    public Regle creerRegle(String id, String libelle, RulePattern pattern, List<Pair<String, Integer>> cas) throws Throwable
     {
         if (trouverRegleParId(id) == null)
         {
-            Regle r = new Regle(id, libelle, texte);
+            Regle r = new Regle(id, libelle, pattern, cas);
 
             if (creerObjet(r))
             {
@@ -486,6 +508,19 @@ public class ServiceMetier
         PersonneDao dao = new PersonneDao();
         
         Personne p = dao.findById(id);
+        
+        JpaUtil.fermerEntityManager();
+        
+        return p;
+    }
+    
+    public RulePattern trouverRulePatternParId(String id) throws Throwable
+    {
+        JpaUtil.creerEntityManager();
+        
+        RulePatternDao dao = new RulePatternDao();
+        
+        RulePattern p = dao.findById(id);
         
         JpaUtil.fermerEntityManager();
         
@@ -862,6 +897,19 @@ public class ServiceMetier
             
             return res;
         }
+    }
+    
+    public List<RulePattern> listerRulePatterns() throws Throwable
+    {
+        JpaUtil.creerEntityManager();
+        
+        RulePatternDao dao = new RulePatternDao();
+        
+        List<RulePattern> patterns = dao.findAll();
+        
+        JpaUtil.fermerEntityManager();
+        
+        return patterns;
     }
     
     /**
@@ -1581,6 +1629,10 @@ public class ServiceMetier
             {
                 new PersonneDao().create((Personne)o);
             }
+            else if (o instanceof RulePattern)
+            {
+                new RulePatternDao().create((RulePattern)o);
+            }
             else if (o instanceof Regle)
             {
                 new RegleDao().create((Regle)o);
@@ -1640,6 +1692,10 @@ public class ServiceMetier
             {
                 new PersonneDao().update((Personne)o);
             }
+            else if (o instanceof RulePattern)
+            {
+                new RulePatternDao().update((RulePattern)o);
+            }
             else if (o instanceof Regle)
             {
                 new RegleDao().update((Regle)o);
@@ -1698,6 +1754,10 @@ public class ServiceMetier
             else if (o instanceof Personne)
             {
                 new PersonneDao().remove((Personne)o);
+            }
+            else if (o instanceof RulePattern)
+            {
+                new RulePatternDao().remove((RulePattern)o);
             }
             else if (o instanceof Regle)
             {
