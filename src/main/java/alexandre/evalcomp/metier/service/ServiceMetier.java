@@ -387,6 +387,7 @@ public class ServiceMetier
     {
         if (c != null)
         {
+            supprimerObjet(c.getRegle());
             List<Score> scores = listerScores();
             
             for (Iterator<Score> it = scores.listIterator(); it.hasNext();)
