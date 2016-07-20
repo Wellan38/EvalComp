@@ -26,14 +26,17 @@ public class RulePattern implements Serializable
     private String libelle;
     
     private List<Pair<String, Integer>> cas;
+    
+    private Boolean ajoutCas;
 
     public RulePattern() {
     }
 
-    public RulePattern(String id, String libelle, List<Pair<String, Integer>> cas) {
+    public RulePattern(String id, String libelle, List<Pair<String, Integer>> cas, Boolean ajoutCas) {
         this.id = id;
         this.libelle = libelle;
         this.cas = cas;
+        this.ajoutCas = ajoutCas;
     }
 
     public String getId() {
@@ -48,12 +51,20 @@ public class RulePattern implements Serializable
         return cas;
     }
 
+    public Boolean getAjoutCas() {
+        return ajoutCas;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
 
     public void setLibelle(String libelle) {
         this.libelle = libelle;
+    }
+
+    public void setAjoutCas(Boolean ajoutCas) {
+        this.ajoutCas = ajoutCas;
     }
 
     @Override

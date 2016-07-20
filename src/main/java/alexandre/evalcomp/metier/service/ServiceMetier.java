@@ -188,11 +188,11 @@ public class ServiceMetier
         }
     }
     
-    public RulePattern creerRulePattern(String id, String libelle, List<Pair<String, Integer>> cas) throws Throwable
+    public RulePattern creerRulePattern(String id, String libelle, List<Pair<String, Integer>> cas, Boolean ajoutCas) throws Throwable
     {
         if (trouverRulePatternParId(id) == null)
         {
-            RulePattern r = new RulePattern(id, libelle, cas);
+            RulePattern r = new RulePattern(id, libelle, cas, ajoutCas);
 
             if (creerObjet(r))
             {
