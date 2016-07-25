@@ -7,11 +7,11 @@
     <class>alexandre.evalcomp.metier.modele.CompetenceS</class>
     <class>alexandre.evalcomp.metier.modele.Formation</class>
     <class>alexandre.evalcomp.metier.modele.Grade</class>
-    <class>alexandre.evalcomp.metier.modele.MiseEnSituation</class>
     <class>alexandre.evalcomp.metier.modele.Personne</class>
     <class>alexandre.evalcomp.metier.modele.Regle</class>
     <class>alexandre.evalcomp.metier.modele.Score</class>
     <class>alexandre.evalcomp.metier.modele.RulePattern</class>
+    <class>alexandre.evalcomp.metier.modele.MiseEnSituation</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/EvalComp"/>
       <property name="javax.persistence.jdbc.user" value="evalcomp"/>

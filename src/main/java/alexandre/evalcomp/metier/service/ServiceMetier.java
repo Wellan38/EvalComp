@@ -108,7 +108,7 @@ public class ServiceMetier
      * @throws java.lang.Throwable
      */
     
-    public CompetenceS creerCompetenceS(String id, String libelle, String type, Double ponderation, Regle regle, String miseEnSituation) throws Throwable
+    public CompetenceS creerCompetenceS(String id, String libelle, String type, Double ponderation, Regle regle, MiseEnSituation miseEnSituation) throws Throwable
     {
         if (trouverCompetenceSParId(id) == null)
         {
@@ -122,6 +122,20 @@ public class ServiceMetier
             {
                 return null;
             }
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
+    public MiseEnSituation creerMiseEnSituation(String id, String contexte, String ressources, String action) throws Throwable
+    {
+        MiseEnSituation m = new MiseEnSituation(id, contexte, ressources, action);
+        
+        if (creerObjet(m))
+        {
+            return m;
         }
         else
         {
@@ -542,6 +556,17 @@ public class ServiceMetier
         JpaUtil.fermerEntityManager();
         
         return r;
+    }
+    
+    public MiseEnSituation trouverMiseEnSituationParId(String id) throws Throwable
+    {
+        JpaUtil.creerEntityManager();
+        
+        MiseEnSituation m = new MiseEnSituationDao().findById(id);
+        
+        JpaUtil.fermerEntityManager();
+        
+        return m;
     }
     
     // -------------- Méthodes de recherche par nom/libellé --------------------
@@ -1649,6 +1674,10 @@ public class ServiceMetier
             {
                 new ScoreDao().create((Score)o);
             }
+            else if (o instanceof MiseEnSituation)
+            {
+                new MiseEnSituationDao().create((MiseEnSituation)o);
+            }
             else
             {
                 classeOk = false;
@@ -1712,6 +1741,10 @@ public class ServiceMetier
             {
                 new ScoreDao().update((Score)o);
             }
+            else if (o instanceof MiseEnSituation)
+            {
+                new MiseEnSituationDao().update((MiseEnSituation)o);
+            }
             else
             {
                 classeOk = false;
@@ -1774,6 +1807,10 @@ public class ServiceMetier
             else if (o instanceof Score)
             {
                 new ScoreDao().remove((Score)o);
+            }
+            else if (o instanceof MiseEnSituation)
+            {
+                new MiseEnSituationDao().remove((MiseEnSituation)o);
             }
             else
             {

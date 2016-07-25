@@ -9,6 +9,7 @@ import alexandre.evalcomp.metier.modele.Apprenant;
 import alexandre.evalcomp.metier.modele.CompetenceG;
 import alexandre.evalcomp.metier.modele.CompetenceS;
 import alexandre.evalcomp.metier.modele.Formation;
+import alexandre.evalcomp.metier.modele.MiseEnSituation;
 import alexandre.evalcomp.metier.modele.Personne;
 import alexandre.evalcomp.metier.service.ServiceMetier;
 import java.io.BufferedReader;
@@ -42,6 +43,7 @@ public class Parseur {
         CompetenceS,
         Formation,
         Formation_CompetenceG,
+        MiseEnSituation,
         Personne,
         Score,
         Apprenant_Formation,
@@ -67,6 +69,7 @@ public class Parseur {
             System.out.println("3. CompetenceS");
             System.out.println("4. Formation");
             System.out.println("5. Formation_CompetenceG");
+            System.out.println("6. MiseEnSituation");
             System.out.println("7. Personne");
             System.out.println("8. Score");
             System.out.println("9. Apprenant_Formation");
@@ -113,6 +116,11 @@ public class Parseur {
                 
                 break;
                 
+            case 6:
+                parser(TypeParse.MiseEnSituation);
+                
+                break;
+                
             case 7:
                 parser(TypeParse.Personne);
                 
@@ -139,6 +147,7 @@ public class Parseur {
                 parser(TypeParse.CompetenceG);
                 parser(TypeParse.Apprenant_Formation);
                 parser(TypeParse.Formation_CompetenceG);
+                parser(TypeParse.MiseEnSituation);
                 parser(TypeParse.CompetenceS);
 //                parser(TypeParse.Personne);
 //                parser(TypeParse.Personne_Formation);
@@ -178,6 +187,10 @@ public class Parseur {
                 
             case Formation_CompetenceG:
                 nomFichier += "Formation_CompetenceG.csv";
+                break;
+                
+            case MiseEnSituation:
+                nomFichier += "MiseEnSituation.csv";
                 break;
                 
             case Personne:
@@ -236,8 +249,8 @@ public class Parseur {
                         
                     case CompetenceS:
                         //CompetenceS
-                        System.out.println(elements[5]);
-                        CompetenceS cs = serv.creerCompetenceS(elements[0], elements[1], elements[2], Double.parseDouble(elements[3]), serv.trouverRegleParId(elements[5]), elements[6]);
+                        MiseEnSituation m = serv.trouverMiseEnSituationParId(elements[6]);
+                        CompetenceS cs = serv.creerCompetenceS(elements[0], elements[1], elements[2], Double.parseDouble(elements[3]), serv.trouverRegleParId(elements[5]), m);
                         cg = serv.trouverCompetenceGParId(elements[4]);
                         serv.ajouterCompetenceS(cg, cs);
                         
@@ -255,6 +268,11 @@ public class Parseur {
                         f = serv.trouverFormationParId(elements[0]);
                         cg = serv.trouverCompetenceGParId(elements[1]);
                         serv.ajouterCompetenceG(f, cg);
+                        
+                        break;
+                        
+                    case MiseEnSituation:
+                        serv.creerMiseEnSituation(elements[0], elements[1], elements[2], elements[3]);
                         
                         break;
                     

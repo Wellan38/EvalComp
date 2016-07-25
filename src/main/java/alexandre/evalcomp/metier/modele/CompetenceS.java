@@ -27,7 +27,7 @@ public class CompetenceS implements Serializable
     private String libelle;
     private String type;
     private Double ponderation;
-    private String miseEnSituation;
+    private MiseEnSituation miseEnSituation;
     
     @ManyToOne
     CompetenceG compG;
@@ -41,7 +41,7 @@ public class CompetenceS implements Serializable
     
     public CompetenceS() {}
 
-    public CompetenceS(String id, String libelle,  String type, Double ponderation, Regle regle, String miseEnSituation) {
+    public CompetenceS(String id, String libelle,  String type, Double ponderation, Regle regle, MiseEnSituation miseEnSituation) {
         this.id = id;
         this.libelle = libelle;
         this.type = type;
@@ -72,7 +72,7 @@ public class CompetenceS implements Serializable
         return compG;
     }
 
-    public String getMiseEnSituation() {
+    public MiseEnSituation getMiseEnSituation() {
         return miseEnSituation;
     }
 
@@ -98,7 +98,7 @@ public class CompetenceS implements Serializable
         this.compG = compG;
     }
 
-    public void setMiseEnSituation(String miseEnSituation) {
+    public void setMiseEnSituation(MiseEnSituation miseEnSituation) {
         this.miseEnSituation = miseEnSituation;
     }
 
