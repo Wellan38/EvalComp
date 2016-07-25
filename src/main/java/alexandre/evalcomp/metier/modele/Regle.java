@@ -69,7 +69,11 @@ public class Regle implements Serializable
     public void setLibelle(String libelle) {
         this.libelle = libelle;
     }
-        
+
+    public void setCas(List<Pair<String, Integer>> cas) {
+        this.cas = cas;
+    }
+    
     // Autres méthodes publiques
 
     @Override
