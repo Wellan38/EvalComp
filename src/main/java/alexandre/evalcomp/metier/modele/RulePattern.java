@@ -27,15 +27,18 @@ public class RulePattern implements Serializable
     
     private List<Pair<String, Integer>> cas;
     
+    private Boolean nombre;
+    
     private Boolean ajoutCas;
 
     public RulePattern() {
     }
 
-    public RulePattern(String id, String libelle, List<Pair<String, Integer>> cas, Boolean ajoutCas) {
+    public RulePattern(String id, String libelle, List<Pair<String, Integer>> cas, Boolean nombre, Boolean ajoutCas) {
         this.id = id;
         this.libelle = libelle;
         this.cas = cas;
+        this.nombre = nombre;
         this.ajoutCas = ajoutCas;
     }
 
@@ -51,6 +54,10 @@ public class RulePattern implements Serializable
         return cas;
     }
 
+    public Boolean getNombre() {
+        return nombre;
+    }
+
     public Boolean getAjoutCas() {
         return ajoutCas;
     }
@@ -61,6 +68,10 @@ public class RulePattern implements Serializable
 
     public void setLibelle(String libelle) {
         this.libelle = libelle;
+    }
+
+    public void setNombre(Boolean nombre) {
+        this.nombre = nombre;
     }
 
     public void setAjoutCas(Boolean ajoutCas) {

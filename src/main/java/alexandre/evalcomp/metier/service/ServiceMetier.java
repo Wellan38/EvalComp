@@ -108,11 +108,11 @@ public class ServiceMetier
      * @throws java.lang.Throwable
      */
     
-    public CompetenceS creerCompetenceS(String id, String libelle, String type, Double ponderation, Regle regle, MiseEnSituation miseEnSituation) throws Throwable
+    public CompetenceS creerCompetenceS(String id, String libelle, Boolean feminin, Boolean pluriel, String type, Double ponderation, Regle regle, MiseEnSituation miseEnSituation) throws Throwable
     {
         if (trouverCompetenceSParId(id) == null)
         {
-            CompetenceS c = new CompetenceS(id, libelle, type, ponderation, regle, miseEnSituation);
+            CompetenceS c = new CompetenceS(id, libelle, feminin, pluriel, type, ponderation, regle, miseEnSituation);
 
             if (creerObjet(c))
             {
@@ -202,11 +202,11 @@ public class ServiceMetier
         }
     }
     
-    public RulePattern creerRulePattern(String id, String libelle, List<Pair<String, Integer>> cas, Boolean ajoutCas) throws Throwable
+    public RulePattern creerRulePattern(String id, String libelle, List<Pair<String, Integer>> cas, Boolean nombre, Boolean ajoutCas) throws Throwable
     {
         if (trouverRulePatternParId(id) == null)
         {
-            RulePattern r = new RulePattern(id, libelle, cas, ajoutCas);
+            RulePattern r = new RulePattern(id, libelle, cas, nombre, ajoutCas);
 
             if (creerObjet(r))
             {
@@ -232,11 +232,11 @@ public class ServiceMetier
      * @throws java.lang.Throwable
      */
     
-    public Regle creerRegle(String id, String libelle, RulePattern pattern, List<Pair<String, Integer>> cas) throws Throwable
+    public Regle creerRegle(String id, String libelle, RulePattern pattern, Boolean pourcentages, List<Pair<String, Integer>> cas) throws Throwable
     {
         if (trouverRegleParId(id) == null)
         {
-            Regle r = new Regle(id, libelle, pattern, cas);
+            Regle r = new Regle(id, libelle, pattern, pourcentages, cas);
 
             if (creerObjet(r))
             {

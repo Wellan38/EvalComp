@@ -25,6 +25,8 @@ public class CompetenceS implements Serializable
     protected String id;
     
     private String libelle;
+    private Boolean feminin;
+    private Boolean pluriel;
     private String type;
     private Double ponderation;
     private MiseEnSituation miseEnSituation;
@@ -41,9 +43,11 @@ public class CompetenceS implements Serializable
     
     public CompetenceS() {}
 
-    public CompetenceS(String id, String libelle,  String type, Double ponderation, Regle regle, MiseEnSituation miseEnSituation) {
+    public CompetenceS(String id, String libelle, Boolean feminin, Boolean pluriel,  String type, Double ponderation, Regle regle, MiseEnSituation miseEnSituation) {
         this.id = id;
         this.libelle = libelle;
+        this.feminin = feminin;
+        this.pluriel = pluriel;
         this.type = type;
         this.ponderation = ponderation;
         this.regle = regle;
@@ -58,6 +62,14 @@ public class CompetenceS implements Serializable
 
     public String getLibelle() {
         return libelle;
+    }
+
+    public Boolean getFeminin() {
+        return feminin;
+    }
+
+    public Boolean getPluriel() {
+        return pluriel;
     }
 
     public String getType() {
@@ -84,6 +96,14 @@ public class CompetenceS implements Serializable
 
     public void setLibelle(String libelle) {
         this.libelle = libelle;
+    }
+
+    public void setFeminin(Boolean feminin) {
+        this.feminin = feminin;
+    }
+
+    public void setPluriel(Boolean pluriel) {
+        this.pluriel = pluriel;
     }
 
     public void setType(String type) {

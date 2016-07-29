@@ -22,39 +22,24 @@ public class CreationRP {
         
         List<Pair<String, Integer>> cas = new ArrayList();
         
-        cas.add(new Pair("si plus de &nombre % des &type ont été &verbe", 10));
+        cas.add(new Pair("si plus de &nombre &type &avoir été &verbe", 10));
         cas.add(new Pair("sinon", 0));
         
-        serv.creerRulePattern("RP-EXCLUSIF-POURCENT", "Exclusif (pourcentages)", cas, Boolean.FALSE);
+        serv.creerRulePattern("RP-EXCLUSIF", "Exclusif", cas, Boolean.TRUE, Boolean.FALSE);
         
         cas = new ArrayList();
         
-        cas.add(new Pair("si plus de &nombre &type ont été &verbe", 10));
-        cas.add(new Pair("sinon", 0));
+        cas.add(new Pair("si plus de &nombre &type &avoir été &verbe", 10));
+        cas.add(new Pair("si entre &nombre et &nombre &type &avoir été &verbe", 5));
+        cas.add(new Pair("si moins de &nombre &type &avoir été &verbe", 0));
         
-        serv.creerRulePattern("RP-EXCLUSIF-NOMBRE", "Exclusif (nombre)", cas, Boolean.FALSE);
+        serv.creerRulePattern("RP-PROGRESSIF", "Progressif", cas, Boolean.TRUE, Boolean.TRUE);
         
         cas = new ArrayList();
         
         cas.add(new Pair("si &libre", 10));
         cas.add(new Pair("sinon", 0));
         
-        serv.creerRulePattern("RP-EXCLUSIF-LIBRE", "Exclusif (libre)", cas, Boolean.FALSE);
-        
-        cas = new ArrayList();
-        
-        cas.add(new Pair("si plus de &nombre &type ont été &verbe", 10));
-        cas.add(new Pair("si entre &nombre et &nombre &type ont été &verbe", 5));
-        cas.add(new Pair("si moins de &nombre &type ont été &verbe", 0));
-        
-        serv.creerRulePattern("RP-COMPTAGE", "Par comptage", cas, Boolean.TRUE);
-        
-        cas = new ArrayList();
-        
-        cas.add(new Pair("si plus de &nombre % des &type ont été &verbe", 10));
-        cas.add(new Pair("si entre &nombre % et &nombre % des &type ont été &verbe", 5));
-        cas.add(new Pair("si moins de &nombre % des &type ont été &verbe", 0));
-        
-        serv.creerRulePattern("RP-PROGRESSIF", "Progressif", cas, Boolean.TRUE);
+        serv.creerRulePattern("RP-LIBRE", "Libre", cas, Boolean.FALSE, Boolean.TRUE);
     }
 }

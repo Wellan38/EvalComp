@@ -29,6 +29,8 @@ public class Regle implements Serializable
     
     private RulePattern pattern;
     
+    private Boolean pourcentages;
+    
     private List<Pair<String, Integer>> cas;
     
     //------------------------ Méthodes publiques ------------------------------
@@ -38,10 +40,11 @@ public class Regle implements Serializable
     public Regle() {
     }
 
-    public Regle(String id, String libelle, RulePattern pattern, List<Pair<String, Integer>> cas) {
+    public Regle(String id, String libelle, RulePattern pattern, Boolean pourcentages, List<Pair<String, Integer>> cas) {
         this.id = id;
         this.libelle = libelle;
         this.pattern = pattern;
+        this.pourcentages = pourcentages;
         this.cas = cas;
     }
     public String getId() {    
@@ -56,6 +59,10 @@ public class Regle implements Serializable
         return pattern;
     }
 
+    public Boolean getPourcentages() {
+        return pourcentages;
+    }
+
     // Getters
     public List<Pair<String, Integer>> getCas() {    
         return cas;
@@ -68,6 +75,10 @@ public class Regle implements Serializable
 
     public void setLibelle(String libelle) {
         this.libelle = libelle;
+    }
+
+    public void setPourcentages(Boolean pourcentages) {
+        this.pourcentages = pourcentages;
     }
 
     public void setCas(List<Pair<String, Integer>> cas) {

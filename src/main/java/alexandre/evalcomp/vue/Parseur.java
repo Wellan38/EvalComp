@@ -249,9 +249,9 @@ public class Parseur {
                         
                     case CompetenceS:
                         //CompetenceS
-                        MiseEnSituation m = serv.trouverMiseEnSituationParId(elements[6]);
-                        CompetenceS cs = serv.creerCompetenceS(elements[0], elements[1], elements[2], Double.parseDouble(elements[3]), serv.trouverRegleParId(elements[5]), m);
-                        cg = serv.trouverCompetenceGParId(elements[4]);
+                        MiseEnSituation m = serv.trouverMiseEnSituationParId(elements[8]);
+                        CompetenceS cs = serv.creerCompetenceS(elements[0], elements[1], Boolean.valueOf(elements[2]), Boolean.valueOf(elements[3]), elements[4], Double.parseDouble(elements[5]), serv.trouverRegleParId(elements[7]), m);
+                        cg = serv.trouverCompetenceGParId(elements[6]);
                         serv.ajouterCompetenceS(cg, cs);
                         
                         break;
