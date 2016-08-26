@@ -11,6 +11,7 @@ import alexandre.evalcomp.metier.modele.CompetenceS;
 import alexandre.evalcomp.metier.modele.Formation;
 import alexandre.evalcomp.metier.modele.MiseEnSituation;
 import alexandre.evalcomp.metier.modele.Personne;
+import alexandre.evalcomp.metier.modele.Personne.TypePersonne;
 import alexandre.evalcomp.metier.service.ServiceMetier;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -31,6 +32,7 @@ public class Parseur {
     
     final static String COORDONATEUR = "Coordonateur";
     final static String FORMATEUR = "Formateur";
+    final static String APPRENANT = "Apprenant";
     final static String FORMATDATE = "dd/MM/yyyy";
     final static String SEP = ",";
     static String chemin;
@@ -142,6 +144,7 @@ public class Parseur {
                 break;
                 
             case 12:
+                parser(TypeParse.Personne);
                 parser(TypeParse.Apprenant);
                 parser(TypeParse.Formation);
                 parser(TypeParse.CompetenceG);
@@ -149,8 +152,7 @@ public class Parseur {
                 parser(TypeParse.Formation_CompetenceG);
                 parser(TypeParse.MiseEnSituation);
                 parser(TypeParse.CompetenceS);
-//                parser(TypeParse.Personne);
-//                parser(TypeParse.Personne_Formation);
+                parser(TypeParse.Personne_Formation);
 //                parser(TypeParse.Score);
                 
                 break;
@@ -237,7 +239,7 @@ public class Parseur {
                 {
                     case Apprenant:
                         // Apprenant
-                        serv.creerApprenant(elements[0], elements[1], elements[2], elements[3]);
+                        serv.creerApprenant(elements[0], elements[1], elements[2], elements[3], serv.trouverPersonneParId(elements[4]));
 
                         break;
 
@@ -276,22 +278,26 @@ public class Parseur {
                         
                         break;
                     
-//                    case Personne:
-//                        // Personne
-//                        TypePersonne type = TypePersonne.Coordonateur;
-//                        
-//                        if (elements[2].equals(FORMATEUR))
-//                        {
-//                            type = TypePersonne.Formateur;
-//                        }
-//                        else if (elements[2].equals(COORDONATEUR))
-//                        {
-//                            type = TypePersonne.Coordonateur;
-//                        }
-//                        
-//                        serv.creerPersonne(elements[0], elements[1], type);
-//                        
-//                        break;
+                    case Personne:
+                        // Personne
+                        TypePersonne type = TypePersonne.Coordonateur;
+                        
+                        if (elements[3].equals(FORMATEUR))
+                        {
+                            type = TypePersonne.Formateur;
+                        }
+                        else if (elements[3].equals(COORDONATEUR))
+                        {
+                            type = TypePersonne.Coordonateur;
+                        }
+                        else if (elements[3].equals(APPRENANT))
+                        {
+                            type = TypePersonne.Apprenant;
+                        }
+                        
+                        serv.creerPersonne(elements[0], elements[1], elements[2], type, elements[4]);
+                        
+                        break;
 //                        
 //                    case Score:
 //                        // Score
@@ -311,14 +317,17 @@ public class Parseur {
                         
                         break;
                         
-//                    case Personne_Formation:
-//                        // Personne_Formation
-//                        p = serv.trouverPersonneParNom(elements[0]).get(0);
-//                        f = serv.trouverFormationParLibelle(elements[1]).get(0);
-//                        
-//                        serv.assignerFormation(p, f);
-//                        
-//                        break;
+                    case Personne_Formation:
+                        // Personne_Formation
+                        p = serv.trouverPersonneParId(elements[0]);
+                        f = serv.trouverFormationParId(elements[1]);
+                        
+                        System.out.println(p);
+                        System.out.println(f);
+                        
+                        serv.assignerFormation(p, f);
+                        
+                        break;
                 }
             }
         }

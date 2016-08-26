@@ -21,7 +21,8 @@ public class Personne implements Serializable
     public enum TypePersonne
     {
         Formateur,
-        Coordonateur
+        Coordonateur,
+        Apprenant
     };
     
     //---------------------------- Attributs -----------------------------------
@@ -32,19 +33,20 @@ public class Personne implements Serializable
     private String nom;
     private String niveau;
     private TypePersonne type;
+    private String motDePasse;
     
     //------------------------ Méthodes publiques ------------------------------
     
     // Constructeurs
     
     public Personne() {}
-    
-    public Personne(String id, String nom, String niveau, TypePersonne type)
-    {
+
+    public Personne(String id, String nom, String niveau, TypePersonne type, String motDePasse) {
         this.id = id;
         this.nom = nom;
         this.niveau = niveau;
         this.type = type;
+        this.motDePasse = motDePasse;
     }
     
     // Getters
@@ -64,6 +66,10 @@ public class Personne implements Serializable
     public TypePersonne getType() {
         return type;
     }
+
+    public String getMotDePasse() {
+        return motDePasse;
+    }
     
     // Setters
 
@@ -77,6 +83,10 @@ public class Personne implements Serializable
 
     public void setType(TypePersonne type) {
         this.type = type;
+    }
+
+    public void setMotDePasse(String motDePasse) {
+        this.motDePasse = motDePasse;
     }
     
     // Autres méthodes publiques

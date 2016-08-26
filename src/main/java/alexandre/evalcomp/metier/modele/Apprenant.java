@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  * Cette classe rassemble toutes les informations nécessaires à la description d'un apprenant.
@@ -34,6 +35,9 @@ public class Apprenant implements Serializable
     @ManyToOne
     private Formation formation;
     
+    @OneToOne
+    private Personne compte;
+    
     //------------------------ Méthodes publiques ------------------------------
     
     // Constructeurs
@@ -46,12 +50,13 @@ public class Apprenant implements Serializable
      * @param niveau fonction de l'apprenant
      */
     
-    public Apprenant(String id, String nom, String fonction, String entreprise)
+    public Apprenant(String id, String nom, String fonction, String entreprise, Personne compte)
     {
         this.id = id;
         this.nom = nom;
         this.fonction = fonction;
         this.entreprise = entreprise;
+        this.compte = compte;
     }
     
     // Getters
@@ -74,14 +79,6 @@ public class Apprenant implements Serializable
     public String getFonction() {
         return fonction;
     }
-    
-    /**
-     * Cette méthode renvoie la liste des grades de l'apprenant pour chaque compétence générale de sa formation.
-     */
-    
-    /**
-     * Cette méthode renvoie la formation suivie par l'apprenant.
-     */
 
     public Formation getFormation() {
         return formation;
@@ -89,6 +86,10 @@ public class Apprenant implements Serializable
 
     public String getEntreprise() {
         return entreprise;
+    }
+
+    public Personne getCompte() {
+        return compte;
     }
     
     // Setters
@@ -122,6 +123,10 @@ public class Apprenant implements Serializable
 
     public void setEntreprise(String entreprise) {
         this.entreprise = entreprise;
+    }
+
+    public void setCompte(Personne compte) {
+        this.compte = compte;
     }
     
     // Autres méthodes publiques

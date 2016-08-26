@@ -152,9 +152,9 @@ public class ServiceMetier
      * @throws java.lang.Throwable
      */
     
-    public Personne creerPersonne(String id, String nom, String niveau, TypePersonne type) throws Throwable
+    public Personne creerPersonne(String id, String nom, String niveau, TypePersonne type, String motDePasse) throws Throwable
     {
-        Personne p = new Personne(id, nom, niveau, type);
+        Personne p = new Personne(id, nom, niveau, type, motDePasse);
         
         if (trouverPersonneParId(id) == null)
         {
@@ -181,11 +181,11 @@ public class ServiceMetier
      * @throws java.lang.Throwable
      */
     
-    public Apprenant creerApprenant(String id, String nom, String fonction, String entreprise) throws Throwable
+    public Apprenant creerApprenant(String id, String nom, String fonction, String entreprise, Personne compte) throws Throwable
     {
         if (trouverApprenantParId(id) == null)
         {
-            Apprenant a = new Apprenant(id, nom, fonction, entreprise);
+            Apprenant a = new Apprenant(id, nom, fonction, entreprise, compte);
 
             if (creerObjet(a))
             {
@@ -368,6 +368,32 @@ public class ServiceMetier
                 calculerGrade(a, c.getCompG());
                 
                 return majObjet(a);
+            }
+        }
+        
+        return false;
+    }
+    
+    public Boolean supprimerAutoevaluation(Apprenant a, CompetenceS c) throws Throwable
+    {
+        if (a == null || c == null)
+        {
+            return false;
+        }
+        
+        List<AutoEvaluation> evals = listerAutoevaluationsParApprenant(a);
+        
+        for (AutoEvaluation e : evals)
+        {
+            if (e.getCompetence().equals(c))
+            {
+                evals.remove(e);
+                
+                //calculerGradeAutoevalue(a, c.getCompG());
+                
+                majObjet(a);
+                
+                return supprimerObjet(e);
             }
         }
         
@@ -814,6 +840,21 @@ public class ServiceMetier
         return res;
     }
     
+    public Apprenant trouverApprenantParCompte(Personne compte) throws Throwable
+    {
+        List<Apprenant> apprenants = listerApprenants();
+        
+        for (Apprenant a : apprenants)
+        {
+            if (compte.equals(a.getCompte()))
+            {
+                return a;
+            }
+        }
+        
+        return null;
+    }
+    
     // --------------------- Méthodes de listing -------------------------------
     
     public List<Personne> listerPersonnes() throws Throwable
@@ -1015,6 +1056,19 @@ public class ServiceMetier
         return res;
     }
     
+    public List<AutoEvaluation> listerAutoevaluations() throws Throwable
+    {
+        JpaUtil.creerEntityManager();
+        
+        AutoEvaluationDao dao = new AutoEvaluationDao();
+        
+        List<AutoEvaluation> res = dao.findAll();
+        
+        JpaUtil.fermerEntityManager();
+        
+        return res;
+    }
+    
     /**
      * Cette méthode permet de lister tous les scores d'un apprenant.
      * @param a l'apprenant concerné
@@ -1037,6 +1091,29 @@ public class ServiceMetier
                 if (g.getApprenant().equals(a))
                 {
                     res.add(g);
+                }
+            }
+            
+            return res;
+        }
+    }
+    
+    public List<AutoEvaluation> listerAutoevaluationsParApprenant(Apprenant a) throws Throwable
+    {
+        if (a == null)
+        {
+            return null;
+        }
+        else
+        {
+            List<AutoEvaluation> evals = listerAutoevaluations();
+            List<AutoEvaluation> res = new ArrayList();
+            
+            for (AutoEvaluation e : evals)
+            {
+                if (e.getApprenant().equals(a))
+                {
+                    res.add(e);
                 }
             }
             
@@ -1074,9 +1151,32 @@ public class ServiceMetier
         }
     }
     
+    public List<AutoEvaluation> listerAutoevaluationsParCompetenceG(Apprenant a, CompetenceG c) throws Throwable
+    {
+        if (a == null)
+        {
+            return null;
+        }
+        else
+        {
+            List<AutoEvaluation> evals = listerAutoevaluationsParApprenant(a);
+            List<AutoEvaluation> res = new ArrayList();
+            
+            for( AutoEvaluation e : evals)
+            {
+                if (e.getCompetence().getCompG().equals(c))
+                {
+                    res.add(e);
+                }
+            }
+            
+            return res;
+        }
+    }
+    
     public List<Formation> listerFormationsParPersonne(Personne p) throws Throwable
     {
-        if (p == null || !p.getType().equals(TypePersonne.Coordonateur))
+        if (p == null)
         {
             return null;
         }
@@ -1433,6 +1533,41 @@ public class ServiceMetier
             }
         }
     }
+    public Boolean ajouterAutoevaluation(Apprenant a, CompetenceS comp, Integer valeur) throws Throwable
+    {
+        if (a == null || comp == null || valeur == null)
+        {
+            return false;
+        }
+        else
+        {
+            AutoEvaluation e = null;
+            
+            List<AutoEvaluation> evals = listerAutoevaluationsParApprenant(a);
+            
+            for (AutoEvaluation ev : evals)
+            {
+                if (ev.getApprenant().equals(a) && ev.getCompetence().equals(comp))
+                {
+                    e = ev;
+                    break;
+                }
+            }
+            
+            if (e == null)
+            {
+                e = new AutoEvaluation("AUTOEVAL-" + a.getId() + "-" + comp.getId(),a, comp, valeur);
+                
+                return creerObjet(e);
+            }
+            else
+            {
+                e.setValeur(valeur);
+                
+                return majObjet(e);
+            }
+        }
+    }
     
     /**
      * Cette méthode permet de calculer le grade d'un apprenant dans une compétence générale.
@@ -1674,6 +1809,10 @@ public class ServiceMetier
             {
                 new ScoreDao().create((Score)o);
             }
+            else if (o instanceof AutoEvaluation)
+            {
+                new AutoEvaluationDao().create((AutoEvaluation)o);
+            }
             else if (o instanceof MiseEnSituation)
             {
                 new MiseEnSituationDao().create((MiseEnSituation)o);
@@ -1740,6 +1879,10 @@ public class ServiceMetier
             else if (o instanceof Score)
             {
                 new ScoreDao().update((Score)o);
+            }
+            else if (o instanceof AutoEvaluation)
+            {
+                new AutoEvaluationDao().update((AutoEvaluation)o);
             }
             else if (o instanceof MiseEnSituation)
             {
@@ -1808,6 +1951,10 @@ public class ServiceMetier
             {
                 new ScoreDao().remove((Score)o);
             }
+            else if (o instanceof AutoEvaluation)
+            {
+                new AutoEvaluationDao().remove((AutoEvaluation)o);
+            }
             else if (o instanceof MiseEnSituation)
             {
                 new MiseEnSituationDao().remove((MiseEnSituation)o);
@@ -1858,7 +2005,7 @@ public class ServiceMetier
     
     public Boolean assignerFormation(Personne p, Formation f) throws Throwable
     {
-        if (p == null || f == null || !p.getType().equals(TypePersonne.Coordonateur))
+        if (p == null || f == null)
         {
             return false;
         }
@@ -1873,10 +2020,9 @@ public class ServiceMetier
                     return false;
                 }
             }
-            
             responsables.add(p);
             
-            return majObjet(p);
+            return majObjet(f);
         }
     }
 }
