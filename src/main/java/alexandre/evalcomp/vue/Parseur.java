@@ -33,6 +33,7 @@ public class Parseur {
     final static String COORDONATEUR = "Coordonateur";
     final static String FORMATEUR = "Formateur";
     final static String APPRENANT = "Apprenant";
+    final static String ADMINISTRATEUR = "Administrateur";
     final static String FORMATDATE = "dd/MM/yyyy";
     final static String SEP = ",";
     static String chemin;
@@ -293,6 +294,10 @@ public class Parseur {
                         else if (elements[3].equals(APPRENANT))
                         {
                             type = TypePersonne.Apprenant;
+                        }
+                        else if (elements[3].equals(ADMINISTRATEUR))
+                        {
+                            type = TypePersonne.Administrateur;
                         }
                         
                         serv.creerPersonne(elements[0], elements[1], elements[2], type, elements[4]);

@@ -22,7 +22,8 @@ public class Personne implements Serializable
     {
         Formateur,
         Coordonateur,
-        Apprenant
+        Apprenant,
+        Administrateur
     };
     
     //---------------------------- Attributs -----------------------------------
