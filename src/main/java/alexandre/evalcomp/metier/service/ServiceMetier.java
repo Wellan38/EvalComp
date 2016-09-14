@@ -9,6 +9,7 @@ import alexandre.evalcomp.dao.*;
 import alexandre.evalcomp.metier.modele.*;
 import alexandre.evalcomp.metier.modele.Personne.TypePersonne;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -1084,14 +1085,37 @@ public class ServiceMetier
         else
         {
             List<Score> scores = listerScores();
-            List<Score> res = new ArrayList();
+            List<Score> scores_app = new ArrayList();
+            
+            List<CompetenceS> compS = new ArrayList();
             
             for (Score g : scores)
             {
                 if (g.getApprenant().equals(a))
                 {
-                    res.add(g);
+                    scores_app.add(g);
+                    
+                    if (!compS.contains(g.getCompetence()))
+                    {
+                        compS.add(g.getCompetence());
+                    }
                 }
+            }
+            
+            List<Score> res = new ArrayList();
+            
+            for (CompetenceS cs : compS)
+            {
+                Score max = null;
+                
+                for (Score sc : scores_app)
+                {
+                    if ((max == null || sc.getDate().compareTo(max.getDate()) > 0) && sc.getCompetence().equals(cs))
+                    {
+                        max = sc;
+                    }
+                }
+                res.add(max);
             }
             
             return res;
@@ -1107,14 +1131,37 @@ public class ServiceMetier
         else
         {
             List<AutoEvaluation> evals = listerAutoevaluations();
+            List<AutoEvaluation> evals_app = new ArrayList();
+            
+            List<CompetenceS> compS = new ArrayList();
+            
+            for (AutoEvaluation g : evals)
+            {
+                if (g.getApprenant().equals(a))
+                {
+                    evals_app.add(g);
+                    
+                    if (!compS.contains(g.getCompetence()))
+                    {
+                        compS.add(g.getCompetence());
+                    }
+                }
+            }
+            
             List<AutoEvaluation> res = new ArrayList();
             
-            for (AutoEvaluation e : evals)
+            for (CompetenceS cs : compS)
             {
-                if (e.getApprenant().equals(a))
+                AutoEvaluation max = null;
+                
+                for (AutoEvaluation sc : evals_app)
                 {
-                    res.add(e);
+                    if ((max == null || sc.getDate().compareTo(max.getDate()) > 0) && sc.getCompetence().equals(cs))
+                    {
+                        max = sc;
+                    }
                 }
+                res.add(max);
             }
             
             return res;
@@ -1137,17 +1184,95 @@ public class ServiceMetier
         else
         {
             List<Score> scores = listerScoresParApprenant(a);
-            List<Score> res = new ArrayList();
             
-            for( Score p : scores)
+            List<Score> scores_app = new ArrayList();
+            List<CompetenceS> compS = new ArrayList();
+            
+            for (Score s : scores)
             {
-                if (p.getCompetence().getCompG().equals(c))
+                if (s.getCompetence().getCompG().equals(c))
                 {
-                    res.add(p);
+                    scores_app.add(s);
+                    
+                    if (!compS.contains(s.getCompetence()))
+                    {
+                        compS.add(s.getCompetence());
+                    }
                 }
             }
             
+            List<Score> res = new ArrayList();
+            
+            for (CompetenceS cs : compS)
+            {
+                Score max = null;
+                
+                for (Score s : scores_app)
+                {
+                    if ((max == null || s.getDate().compareTo(max.getDate()) > 0) && s.getCompetence().equals(cs))
+                    {
+                        max = s;
+                    }
+                }
+                
+                res.add(max);
+            }
+            
             return res;
+        }
+    }
+    
+    public List<Score> historiqueScoresParCompetenceG(Apprenant a, CompetenceG c) throws Throwable
+    {
+        if (a == null)
+        {
+            return null;
+        }
+        else
+        {
+            List<Score> scores = listerScores();
+            
+            List<Score> scores_app = new ArrayList();
+            
+            for (Score s : scores)
+            {
+                if (a.equals(s.getApprenant()) && s.getCompetence().getCompG().equals(c))
+                {
+                    scores_app.add(s);
+                }
+            }
+            
+            Collections.sort(scores_app);
+            Collections.reverse(scores_app);
+            
+            return scores_app;
+        }
+    }
+    
+    public List<AutoEvaluation> historiqueAutoevaluationsParCompetenceG(Apprenant a, CompetenceG c) throws Throwable
+    {
+        if (a == null)
+        {
+            return null;
+        }
+        else
+        {
+            List<AutoEvaluation> evals = listerAutoevaluations();
+            
+            List<AutoEvaluation> evals_app = new ArrayList();
+            
+            for (AutoEvaluation e : evals)
+            {
+                if (a.equals(e.getApprenant()) && e.getCompetence().getCompG().equals(c))
+                {
+                    evals_app.add(e);
+                }
+            }
+            
+            Collections.sort(evals_app);
+            Collections.reverse(evals_app);
+            
+            return evals_app;
         }
     }
     
@@ -1488,38 +1613,45 @@ public class ServiceMetier
                 if (contientComp)
                 {
                     List<Score> scores = listerScoresParApprenant(a);
-
-                    Score p;
-                    Boolean contientScore = false;
-
-                    for (Score ps : scores)
+                    List<Score> scores_spec = new ArrayList();
+                    
+                    Boolean create = false;
+                    
+                    for (Score s : scores)
                     {
-                        if (ps.getCompetence().equals(cs))
+                        if (s.getCompetence().equals(cs))
                         {
-                            ps.setScore(note);
-
-                            majObjet(ps);
-
-                            contientScore = true;
-
-                            break;
+                            scores_spec.add(s);
                         }
                     }
-
-                    if (!contientScore)
+                    
+                    Collections.sort(scores_spec);
+                    
+                    if (!scores_spec.isEmpty())
                     {
-                        p = new Score(cs, a, note);
+                        Score last_score = scores_spec.get(scores_spec.size() - 1);
 
-                        if (creerObjet(p))
+                        if (!last_score.getScore().equals(note))
                         {
-                            scores.add(p);
+                            create = true;
                         }
                     }
+                    else
+                    {
+                        create = true;
+                    }
+                    
+                    if (create)
+                    {
+                        Date d = new Date();
 
-                    majObjet(a);
+                        Score p = new Score("SCORE-" + a.getId() + "-" + cs.getId() + "-" + d.getDay() + "-" + d.getMonth() + "-" + d.getYear() + "-" + d.getHours() + "-" + d.getMinutes() + "-" + d.getSeconds(), cs, a, note, d);
 
+                        creerObjet(p);
+                    }
+                    
                     calculerGrade(a, cs.getCompG());
-
+                    
                     return true;
                 }
                 else
@@ -1533,38 +1665,81 @@ public class ServiceMetier
             }
         }
     }
-    public Boolean ajouterAutoevaluation(Apprenant a, CompetenceS comp, Integer valeur) throws Throwable
+    public Boolean ajouterAutoevaluation(Apprenant a, CompetenceS cs, Double valeur) throws Throwable
     {
-        if (a == null || comp == null || valeur == null)
+        if (a == null || a.getFormation() == null || cs == null || valeur == null)
         {
             return false;
         }
         else
         {
-            AutoEvaluation e = null;
+            CompetenceG cg = cs.getCompG();
             
-            List<AutoEvaluation> evals = listerAutoevaluationsParApprenant(a);
-            
-            for (AutoEvaluation ev : evals)
+            if (cg != null)
             {
-                if (ev.getApprenant().equals(a) && ev.getCompetence().equals(comp))
+                Boolean contientComp = false;
+
+                List<CompetenceG> competences = a.getFormation().getCompetences();
+
+                for (CompetenceG c : competences)
                 {
-                    e = ev;
-                    break;
+                    if (c.equals(cg))
+                    {
+                        contientComp = true;
+                        break;
+                    }
                 }
-            }
-            
-            if (e == null)
-            {
-                e = new AutoEvaluation("AUTOEVAL-" + a.getId() + "-" + comp.getId(),a, comp, valeur);
-                
-                return creerObjet(e);
+
+                if (contientComp)
+                {
+                    List<AutoEvaluation> evals = listerAutoevaluationsParApprenant(a);
+                    List<AutoEvaluation> evals_spec = new ArrayList();
+                    
+                    Boolean create = false;
+                    
+                    for (AutoEvaluation e : evals)
+                    {
+                        if (e.getCompetence().equals(cs))
+                        {
+                            evals_spec.add(e);
+                        }
+                    }
+                    
+                    Collections.sort(evals_spec);
+                    
+                    if (!evals_spec.isEmpty())
+                    {
+                        AutoEvaluation last_eval = evals_spec.get(evals_spec.size() - 1);
+
+                        if (!last_eval.getValeur().equals(valeur))
+                        {
+                            create = true;
+                        }
+                    }
+                    else
+                    {
+                        create = true;
+                    }
+                    
+                    if (create)
+                    {
+                        Date d = new Date();
+
+                        AutoEvaluation e = new AutoEvaluation("AUTOEVALUATION-" + a.getId() + "-" + cs.getId() + "-" + d.getDay() + "-" + d.getMonth() + "-" + d.getYear() + "-" + d.getHours() + "-" + d.getMinutes() + "-" + d.getSeconds(), a, cs, valeur, d);
+
+                        creerObjet(e);
+                    }
+                    
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
-                e.setValeur(valeur);
-                
-                return majObjet(e);
+                return false;
             }
         }
     }
@@ -1639,7 +1814,10 @@ public class ServiceMetier
                     
                     for (Score p : scores)
                     {
-                        note += p.getScore() * p.getCompetence().getPonderation();
+                        if (p.getCompetence().getCompG().equals(cg))
+                        {
+                            note += p.getScore() * p.getCompetence().getPonderation();
+                        }
                     }
                     
                     if (note >= cg.getSeuilMax())
@@ -1696,7 +1874,7 @@ public class ServiceMetier
                         majObjet(a);
                     }
                 }
-
+                
                 return g;
             }
         } 

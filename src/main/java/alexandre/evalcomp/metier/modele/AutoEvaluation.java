@@ -5,10 +5,13 @@
  */
 package alexandre.evalcomp.metier.modele;
 
+import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -16,7 +19,7 @@ import javax.persistence.ManyToOne;
  */
 
 @Entity
-public class AutoEvaluation
+public class AutoEvaluation implements Serializable, Comparable<AutoEvaluation>
 {
     @Id
     private String id;
@@ -27,19 +30,21 @@ public class AutoEvaluation
     @ManyToOne
     private CompetenceS competence;
     
-    private int valeur;
+    private Double valeur;
+    
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date date;
 
-    public AutoEvaluation(String id, Apprenant apprenant, CompetenceS competence, int valeur) {
+    public AutoEvaluation(String id, Apprenant apprenant, CompetenceS competence, Double valeur, Date date) {
         this.id = id;
         this.apprenant = apprenant;
         this.competence = competence;
         this.valeur = valeur;
+        this.date = date;
     }
 
     public AutoEvaluation() {
     }
-    
-    
 
     public String getId() {
         return id;
@@ -53,11 +58,15 @@ public class AutoEvaluation
         return competence;
     }
 
-    public int getValeur() {
+    public Double getValeur() {
         return valeur;
     }
 
-    public void setValeur(int valeur) {
+    public Date getDate() {
+        return date;
+    }
+
+    public void setValeur(Double valeur) {
         this.valeur = valeur;
     }
 
@@ -90,5 +99,8 @@ public class AutoEvaluation
         return true;
     }
     
-    
+    public int compareTo(AutoEvaluation e)
+    {
+        return date.compareTo(e.getDate());
+    }
 }

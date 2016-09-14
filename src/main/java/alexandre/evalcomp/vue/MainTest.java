@@ -7,7 +7,10 @@ package alexandre.evalcomp.vue;
 
 import alexandre.evalcomp.metier.modele.Formation;
 import alexandre.evalcomp.metier.service.ServiceMetier;
-import java.util.List;
+import alexandre.evalcomp.metier.service.ServiceTechnique;
+import java.io.File;
+import java.io.FileOutputStream;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 /**
  *
@@ -17,23 +20,21 @@ public class MainTest {
     
     public static void main(String[] args) throws Throwable
     {
-        ServiceMetier serv = new ServiceMetier();
+        ServiceTechnique servT = new ServiceTechnique();
+        ServiceMetier servM = new ServiceMetier();
         
-        List<Formation> formations = serv.listerFormationsParPersonne(serv.trouverPersonneParNom("Personne1").get(0));
+        Formation f = servM.trouverFormationParId("8925");
         
-        for (Formation f : formations)
-        {
-            System.out.println(f);
-        }
+        File fi = new File("C:\\Users\\alexa\\Desktop\\test\\test.xls");
         
-        serv.supprimerFormation(serv.trouverFormationParLibelle("form1").get(0));
+        HSSFWorkbook wb = servT.exporterResultats(f);
         
-        formations = serv.listerFormationsParPersonne(serv.trouverPersonneParNom("Personne1").get(0));
+        FileOutputStream fos = new FileOutputStream(fi);
         
-        for (Formation f : formations)
-        {
-            System.out.println(f);
-        }
+        wb.write(fos);
         
+        fos.flush();
+        
+        fos.close();
     }
 }
