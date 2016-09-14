@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package alexandre.evalcomp.metier.service; 
 
 import alexandre.evalcomp.dao.*;
@@ -16,25 +11,10 @@ import java.util.List;
 import javafx.util.Pair;
 import javax.persistence.OptimisticLockException;
 
-/**
- *
- * @author Alex-Laptop
- */
 public class ServiceMetier
 {
     // ----------------------- Méthodes de création ----------------------------
-    
-    /**
-     * Cette méthode permet de créer une nouvelle formation.
-     * @param libelle nom de la formation
-     * @param domaine domaine de la formation
-     * @param url URL de la formation
-     * @param duree durée (en heures) de la formation
-     * @param date date du début de la formation
-     * @return Renvoie la formation nouvellement créée, si celle-ci n'existait pas auparavant, renvoie null sinon.
-     * @throws java.lang.Throwable
-     */
-    
+
     public Formation creerFormation(String id, String libelle, String domaine, String url, Integer duree, Date date) throws Throwable
     {
         if (trouverFormationParId(id) == null)
@@ -64,18 +44,6 @@ public class ServiceMetier
         }
     }
     
-    /**
-     * Cette méthode permet de créer une compétence générale. Elle devra être ajoutée par la suite à une formation.
-     * Il est possible de créer plusieurs compétences portant le même nom.
-     * @param libelle nom de la compétence
-     * @param type type de la compétence
-     * @param propriete propriété de la compétence
-     * @param seuilMin seuil en-dessous duquel une compétence ne peut être acquise
-     * @param seuilMax seuil au-delà duquel une compétence est acquise
-     * @return Renvoie la compétence nouvellement créée.
-     * @throws java.lang.Throwable
-     */
-    
     public CompetenceG creerCompetenceG(String id, String libelle, String type, Double seuilMin, Double seuilMax, List<CompetenceS> compSpec) throws Throwable
     {
         if (trouverCompetenceGParId(id) == null)
@@ -96,18 +64,6 @@ public class ServiceMetier
             return null;
         }
     }
-    
-    /**
-     * Cette méthode permet de créer une compétence spécifique. Elle devra être ajoutée par la suite à une compétence générale.
-     * Il est possible de créer plusieurs compétences spécifiques portant le même nom.
-     * @param libelle nom de la compétence
-     * @param type type de la compétence
-     * @param propriete propriété de la compétence
-     * @param ponderation coefficient de la compétence spécifique dans sa compétence générale
-     * @param regle règle à appliquer à la compétence spécifique
-     * @return Renvoie la compétence nouvellement créée.
-     * @throws java.lang.Throwable
-     */
     
     public CompetenceS creerCompetenceS(String id, String libelle, Boolean feminin, Boolean pluriel, String type, Double ponderation, Regle regle, MiseEnSituation miseEnSituation) throws Throwable
     {
@@ -144,15 +100,6 @@ public class ServiceMetier
         }
     }
     
-    /**
-     * Cette méthode permet de créer une nouvelle personne.
-     * @param nom nom de la personne
-     * @param niveau niveau de la personne
-     * @param type type de la personne (Formateur/Coordonateur)
-     * @return Renvoie la personne nouvellement créée, si celle-ci n'existait pas aupravant, renvoie null sinon.
-     * @throws java.lang.Throwable
-     */
-    
     public Personne creerPersonne(String id, String nom, String niveau, TypePersonne type, String motDePasse) throws Throwable
     {
         Personne p = new Personne(id, nom, niveau, type, motDePasse);
@@ -173,14 +120,6 @@ public class ServiceMetier
             return null;
         }
     }
-    
-    /**
-     * Cette méthode permet de créer un apprenant.
-     * @param nom nom de l'apprenant
-     * @param niveau niveau de l'apprenant
-     * @return Renvoie l'apprenant nouvellement créé.
-     * @throws java.lang.Throwable
-     */
     
     public Apprenant creerApprenant(String id, String nom, String fonction, String entreprise, Personne compte) throws Throwable
     {
@@ -224,15 +163,6 @@ public class ServiceMetier
         }
     }
     
-    /**
-     * Cette méthode permet de créer une nouvelle règle de calcul.
-     * Il est possible de créer plusieurs règles portant le même nom.
-     * @param libelle nom de la règle
-     * @param calcul formule sur laquelle la règle se base
-     * @return Renvoie la règle nouvellement créée si celle-ci n'existe pas déjà, renvoie null sinon.
-     * @throws java.lang.Throwable
-     */
-    
     public Regle creerRegle(String id, String libelle, RulePattern pattern, Boolean pourcentages, List<Pair<String, Integer>> cas) throws Throwable
     {
         if (trouverRegleParId(id) == null)
@@ -267,15 +197,7 @@ public class ServiceMetier
             return supprimerObjet(a);
         }
     }
-    
-    /**
-     * Cette méthode permet de supprimer une formation, ainsi que tous les liens qu'elle possède avec d'autres objets.
-     * Deux formations ne peuvent porter le même nom.
-     * @param f la formation à supprimer
-     * @return Renvoie vrai si la formation a effectivement été supprimée, renvoie faux sinon.
-     * @throws java.lang.Throwable
-     */
-    
+
     public Boolean supprimerFormation(Formation f) throws Throwable
     {
         if (f == null)
@@ -299,14 +221,7 @@ public class ServiceMetier
 
         return true;
     }
-    
-    /**
-     * Cette méthode permet de supprimer une personne.
-     * @param p la personne à supprimer
-     * @return Renvoie vrai si la personne a effectivement été supprimée, renvoie faux sinon.
-     * @throws Throwable 
-     */
-    
+
     public Boolean supprimerPersonne(Personne p) throws Throwable
     {
         if (p == null)
@@ -342,15 +257,7 @@ public class ServiceMetier
             return true;
         }
     }
-    
-    /**
-     * Cette méthode permet de supprimer le score d'un apprenant dans une compétence spécifique.
-     * @param a l'apprenant concerné
-     * @param c la compétence spécifique concernée
-     * @return Renvoie vrai si le score a effectivement été supprimé, renvoie faux sinon.
-     * @throws Throwable 
-     */
-    
+
     public Boolean supprimerScore(Apprenant a, CompetenceS c) throws Throwable
     {
         if (a == null || c == null)
@@ -390,8 +297,6 @@ public class ServiceMetier
             {
                 evals.remove(e);
                 
-                //calculerGradeAutoevalue(a, c.getCompG());
-                
                 majObjet(a);
                 
                 return supprimerObjet(e);
@@ -400,14 +305,7 @@ public class ServiceMetier
         
         return false;
     }
-    
-    /**
-     * Cette méthode permet de supprimer une règle.
-     * @param r la règle à supprimer
-     * @return Renvoie vrai si la règle a effectivement été supprimée, renvoie faux sinon.
-     * @throws Throwable 
-     */
-    
+
     public Boolean supprimerRegle(Regle r) throws Throwable
     {
         List<CompetenceS> comps = listerCompetenceS();
@@ -597,14 +495,7 @@ public class ServiceMetier
     }
     
     // -------------- Méthodes de recherche par nom/libellé --------------------
-    
-    /**
-     * Cette méthode permet de trouver un apprenant par son nom..
-     * @param nom nom de l'apprenant recherché
-     * @return Renvoie la liste des apprenant correspondant au nom fourni.
-     * @throws java.lang.Throwable
-     */
-    
+
     public List<Apprenant> trouverApprenantParNom(String nom) throws Throwable
     {
         JpaUtil.creerEntityManager();
@@ -650,14 +541,7 @@ public class ServiceMetier
         
         return res;
     }
-    
-    /**
-     * Cette méthode permet de rechercher une formation par son libellé.
-     * @param libelle le libellé de la formation recherchée
-     * @return Renvoie la formation correspondant au libellé, si elle a été trouvée, renvoie null sinon.
-     * @throws Throwable 
-     */
-    
+
     public List<Formation> trouverFormationParLibelle(String libelle) throws Throwable
     {
         List<Formation> res = new ArrayList();
@@ -680,14 +564,7 @@ public class ServiceMetier
 
         return res;
     }
-    
-    /**
-     * Cette méthode permet de trouver une personne par son nom.
-     * @param nom le nom de la personne recherchée
-     * @return Renvoie la liste des personnes correspondant au nom fourni.
-     * @throws Throwable 
-     */
-    
+
     public List<Personne> trouverPersonneParNom(String nom) throws Throwable
     {
         JpaUtil.creerEntityManager();
@@ -708,14 +585,7 @@ public class ServiceMetier
         
         return res;
     }
-    
-    /**
-     * Cette méthode permet de trouver une compétence générale par son libellé.
-     * @param libelle nom de la compétence recherchée
-     * @return Renvoie la liste des compétences générales portant le nom fourni.
-     * @throws java.lang.Throwable
-     */
-    
+
     public List<CompetenceG> trouverCompetenceGParLibelle(String libelle) throws Throwable
     {
         JpaUtil.creerEntityManager();
@@ -738,14 +608,7 @@ public class ServiceMetier
         
         return res;
     }
-    
-    /**
-     * Cette méthode permet de trouver une compétence spécifique par son libellé.
-     * @param libelle nom de la compétence recherchée
-     * @return Renvoie la liste des compétences portant le nom fourni.
-     * @throws java.lang.Throwable
-     */
-    
+
     public List<CompetenceS> trouverCompetenceSParLibelle(String libelle) throws Throwable
     {
         List<CompetenceS> res = new ArrayList();
@@ -762,14 +625,7 @@ public class ServiceMetier
         
         return res;
     }
-    
-    /**
-     * Cette méthode permet de trouver une règle de calcul par son libellé.
-     * @param libelle nom de la règle recherchée
-     * @return Renvoie la règle correspondant au libellé, si celle-ci existe, renvoie null sinon.
-     * @throws java.lang.Throwable
-     */
-    
+
     public List<Regle> trouverRegleParLibelle(String libelle) throws Throwable
     {
         List<Regle> res = new ArrayList();
@@ -870,13 +726,7 @@ public class ServiceMetier
         
         return personnes;
     }
-    
-    /**
-     * Cette méthode permet de lister toutes les formations existantes.
-     * @return Renvoie la liste des formations.
-     * @throws java.lang.Throwable
-     */
-    
+
     public List<Formation> listerFormations() throws Throwable
     {
         JpaUtil.creerEntityManager();
@@ -889,13 +739,7 @@ public class ServiceMetier
         
         return formations;
     }
-    
-    /**
-     * Cette méthode permet de lister toutes les compétences générales existantes.
-     * @return Renvoie la liste des compétences générales.
-     * @throws java.lang.Throwable
-     */
-    
+
     public List<CompetenceG> listerCompetenceG() throws Throwable
     {
         JpaUtil.creerEntityManager();
@@ -908,13 +752,7 @@ public class ServiceMetier
         
         return competences;
     }
-    
-    /**
-     * Cette méthode permet de lister toutes les compétences spécifiques existantes.
-     * @return Renvoie la liste des compétences spécifiques.
-     * @throws java.lang.Throwable
-     */
-    
+
     public List<CompetenceS> listerCompetenceS() throws Throwable
     {
         JpaUtil.creerEntityManager();
@@ -927,13 +765,7 @@ public class ServiceMetier
         
         return competences;
     }
-    
-    /**
-     * Cette méthode permet de lister tous les apprenants.
-     * @return Renvoie la liste des apprenants.
-     * @throws java.lang.Throwable
-     */
-    
+
     public List<Apprenant> listerApprenants() throws Throwable
     {
         JpaUtil.creerEntityManager();
@@ -982,13 +814,7 @@ public class ServiceMetier
         
         return patterns;
     }
-    
-    /**
-     * Cette méthode permet de lister toutes les règles existantes.
-     * @return Renvoie la liste des règles.
-     * @throws java.lang.Throwable
-     */
-    
+
     public List<Regle> listerRegles() throws Throwable
     {
         JpaUtil.creerEntityManager();
@@ -1001,13 +827,7 @@ public class ServiceMetier
         
         return regles;
     }
-    
-    /**
-     * Cette méthode permet de lister tous les grades obtenus par un apprenant dans sa formation.
-     * @param a l'apprenant concerné
-     * @return Renvoie la liste des grades (couplés à leur compétence générale respective) si elle a été trouvée, renvoie null sinon.
-     */
-    
+
     public List<Grade> listerGradesParApprenant(Apprenant a) throws Throwable
     {
         if (a == null)
@@ -1069,13 +889,7 @@ public class ServiceMetier
         
         return res;
     }
-    
-    /**
-     * Cette méthode permet de lister tous les scores d'un apprenant.
-     * @param a l'apprenant concerné
-     * @return Renvoie la liste des scores (couplés à leur compétence spécifique respective) si elle a été trouvée, renvoie null sinon.
-     */
-    
+
     public List<Score> listerScoresParApprenant(Apprenant a) throws Throwable
     {
         if (a == null)
@@ -1167,14 +981,7 @@ public class ServiceMetier
             return res;
         }
     }
-    
-    /**
-     * Cette méthode permet de lister les scores d'un apprenant dans une compétence générale particulière.
-     * @param a l'apprenant concerné
-     * @param c la compétence générale voulue
-     * @return Renvoie la liste des scores (couplés à leur compétence spécifique respective) obtenus par un apprenant dans une compétence générale, si cette liste a été trouvée, renvoie null sinon.
-     */
-    
+
     public List<Score> listerScoresParCompetenceG(Apprenant a, CompetenceG c) throws Throwable
     {
         if (a == null)
@@ -1341,15 +1148,7 @@ public class ServiceMetier
     }
     
     // ------------- Méthodes d'ajout/retrait de compétences -------------------
-    
-    /**
-     * Cette méthode permet d'ajouter une compétence spécifique à une compétence générale.
-     * @param cg la compétence générale concernée
-     * @param cs la compétence spécifique à ajouter
-     * @return Renvoie vrai si la compétence spécifique a bien été ajoutée, renvoie faux sinon (par exemple si elle était déjà présente dans la compétence générale).
-     * @throws java.lang.Throwable
-     */
-    
+
     public Boolean ajouterCompetenceS(CompetenceG cg, CompetenceS cs) throws Throwable
     {
         if (cg == null || cs == null)
@@ -1410,15 +1209,7 @@ public class ServiceMetier
             return false;
         }
     }
-    
-    /**
-     * Cette méthode permet d'ajouter une compétence générale à une formation
-     * @param f la formation concernée
-     * @param c la compétence générale à ajouter
-     * @return Renvoie vrai si la compétence a bien été ajoutée à la formation, renvoie faux sinon (par exemple si elle était déjà présente dans la formation).
-     * @throws java.lang.Throwable
-     */
-    
+
     public Boolean ajouterCompetenceG(Formation f, CompetenceG c) throws Throwable
     {
         if (f == null || c == null)
@@ -1462,15 +1253,7 @@ public class ServiceMetier
             return false;
         }
     }
-    
-    /**
-     * Cette méthode permet de retirer une compétence spécifique à une compétence générale
-     * @param cg la compétence générale concernée
-     * @param cs la compétence spécifique à retirer
-     * @return Renvoie vrai si la compétence spécifique a bien été retirée de la compétence générale, renvoie faux sinon (par exemple si elle ne se trouvait pas dans la liste des compétences spécifiques dans la compétence générale).
-     * @throws java.lang.Throwable
-     */
-    
+
     public Boolean retirerCompetenceS(CompetenceG cg, CompetenceS cs) throws Throwable
     {
         if (cg == null || cs == null)
@@ -1516,15 +1299,7 @@ public class ServiceMetier
             return false;
         }
     }
-    
-    /**
-     * Cette méthode permet de retirer une compétence générale à une formation
-     * @param f la formation concernée
-     * @param c la compétence générale à retirer
-     * @return Renvoie vrai si la compétence générale a bien été retirée de la formation, renvoie faux sinon (par exemple si elle ne se trouvait pas dans la liste des compétences spécifiques dans la formation).
-     * @throws java.lang.Throwable
-     */
-    
+
     public Boolean retirerCompetenceG(Formation f, CompetenceG c) throws Throwable
     {
         if (f == null || c == null)
@@ -1572,19 +1347,7 @@ public class ServiceMetier
     }
     
     // ----------------------- Méthodes de calcul ------------------------------
-    
-    /**
-     * Cette méthode permet de calculer la note d'un apprenant dans une compétence spécifique.
-     * Si cette note existait déjà, elle sera remplacée.
-     * Le grade de l'apprenant dans la compétence générale concernée sera également mis à jour, si nécessaire.
-     * @param a l'apprenant concerné
-     * @param cs la compétence spécifique pour laquelle il faut calculer la note
-     * @param r la règle à appliquer
-     * @param param la liste des paramètres pris en compte par la règle
-     * @return Renvoie vrai si la note a effectivement été calculée, renvoie faux sinon.
-     * @throws Throwable 
-     */
-    
+
     public Boolean ajouterNote(Apprenant a, CompetenceS cs, Double note) throws Throwable
     {
         if (a == null || a.getFormation() == null || cs == null || note == null)
@@ -1743,17 +1506,7 @@ public class ServiceMetier
             }
         }
     }
-    
-    /**
-     * Cette méthode permet de calculer le grade d'un apprenant dans une compétence générale.
-     * Il ne sera caculé que si toutes les compétences spécifiques découlant de la compétence générale ont un score.
-     * Le grade sera mis à jour automatiquement.
-     * @param a l'apprenant concerné
-     * @param cg la compétence générale pour laquelle le grade sera calculé
-     * @return Renvoie le grade s'il a effectivement été calculé, renvoie null sinon.
-     * @throws Throwable 
-     */
-    
+
     public Grade.ValeurGrade calculerGrade(Apprenant a, CompetenceG cg) throws Throwable
     {
         if (a == null || a.getFormation() == null || cg == null)
@@ -1881,16 +1634,7 @@ public class ServiceMetier
     }
     
     // -------------------- Méthodes de statistiques ---------------------------
-    
-    /**
-     * Cette méthode permet de calculer la moyenne d'un apprenant dans une compétence générale.
-     * Elle sera calculée même si toutes les compétences spécifiques découlant de la compétence générale n'ont pas de score.
-     * La formule utilisée dqns tous les cas est : moyenne = somme(score * pondération).
-     * @param a l'apprenant concerné
-     * @param c la compétence générale pour laquelle on veut calculer la moyenne
-     * @return Renvoie la moyenne si elle a effectivement été calculée, renvoie null sinon.
-     */
-    
+
     public Double calculerMoyenneCompetenceG(Apprenant a, CompetenceG c) throws Throwable
     {
         if (a == null && a.getFormation() == null || c == null)
@@ -2151,15 +1895,7 @@ public class ServiceMetier
     }
     
     // ----------------------- Autres méthodes ---------------------------------
-    
-    /**
-     * Cette méthode permet de donner une formation à un apprenant.
-     * @param a l'apprenant concerné
-     * @param f la formation à assigner
-     * @return Renvoie vrai si la formation a effectivement été assignée, renvoie faux sinon.
-     * @throws Throwable 
-     */
-    
+
     public Boolean assignerFormation (Apprenant a, Formation f) throws Throwable
     {
         if (a == null || f == null)

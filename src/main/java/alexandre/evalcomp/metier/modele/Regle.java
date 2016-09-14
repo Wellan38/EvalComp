@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package alexandre.evalcomp.metier.modele;
 
 import java.io.Serializable;
@@ -12,16 +7,9 @@ import javafx.util.Pair;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-/**
- *
- * @author Alex-Laptop
- */
-
 @Entity
 public class Regle implements Serializable
-{
-    //---------------------------- Attributs -----------------------------------
-    
+{    
     @Id
     protected String id;
     
@@ -32,10 +20,6 @@ public class Regle implements Serializable
     private Boolean pourcentages;
     
     private List<Pair<String, Integer>> cas;
-    
-    //------------------------ Méthodes publiques ------------------------------
-
-    // Constructeurs
     
     public Regle() {
     }
@@ -63,12 +47,10 @@ public class Regle implements Serializable
         return pourcentages;
     }
 
-    // Getters
     public List<Pair<String, Integer>> getCas() {    
         return cas;
     }
 
-    // Setters
     public void setPattern(RulePattern pattern) {
         this.pattern = pattern;
     }
@@ -84,8 +66,6 @@ public class Regle implements Serializable
     public void setCas(List<Pair<String, Integer>> cas) {
         this.cas = cas;
     }
-    
-    // Autres méthodes publiques
 
     @Override
     public int hashCode() {

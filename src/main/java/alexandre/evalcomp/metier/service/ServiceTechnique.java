@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package alexandre.evalcomp.metier.service;
 
 import alexandre.evalcomp.metier.modele.Apprenant;
@@ -22,10 +17,6 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
 
-/**
- *
- * @author Alex-Laptop
- */
 public class ServiceTechnique
 {
     public HSSFWorkbook exporterAutoevaluations(Apprenant a) throws FileNotFoundException, IOException, Throwable

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package alexandre.evalcomp.dao;
 
 import alexandre.evalcomp.dao.JpaUtil;
@@ -11,10 +6,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-/**
- *
- * @author Alex-Laptop
- */
 public class AutoEvaluationDao {
     
     public void create(AutoEvaluation a) throws Throwable

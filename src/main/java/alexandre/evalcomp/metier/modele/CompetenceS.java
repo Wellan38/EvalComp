@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package alexandre.evalcomp.metier.modele;
 
 import java.io.Serializable;
@@ -11,16 +6,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-/**
- *
- * @author Alex-Laptop
- */
-
 @Entity
 public class CompetenceS implements Serializable
-{
-    //---------------------------- Attributs -----------------------------------
-    
+{   
     @Id
     protected String id;
     
@@ -37,10 +25,6 @@ public class CompetenceS implements Serializable
     @ManyToOne
     private Regle regle;
     
-    //------------------------ Méthodes publiques ------------------------------
-    
-    // Constructeurs
-    
     public CompetenceS() {}
 
     public CompetenceS(String id, String libelle, Boolean feminin, Boolean pluriel,  String type, Double ponderation, Regle regle, MiseEnSituation miseEnSituation) {
@@ -53,8 +37,6 @@ public class CompetenceS implements Serializable
         this.regle = regle;
         this.miseEnSituation = miseEnSituation;
     }
-    
-    // Getters
     
     public String getId() {
         return id;
@@ -91,8 +73,6 @@ public class CompetenceS implements Serializable
     public Regle getRegle() {
         return regle;
     }
-    
-    // Setters
 
     public void setLibelle(String libelle) {
         this.libelle = libelle;
@@ -125,8 +105,6 @@ public class CompetenceS implements Serializable
     public void setRegle(Regle regle) {
         this.regle = regle;
     }
-    
-    // Autres méthodes publiques
 
     @Override
     public String toString() {

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package alexandre.evalcomp.metier.modele;
 
 import java.io.Serializable;
@@ -12,16 +7,9 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-/**
- *
- * @author Alex-Laptop
- */
-
 @Entity
 public class CompetenceG implements Serializable
-{
-    //---------------------------- Attributs -----------------------------------
-    
+{    
     @Id
     protected String id;
     
@@ -32,10 +20,6 @@ public class CompetenceG implements Serializable
     
     @OneToMany(fetch = FetchType.EAGER)
     private List<CompetenceS> compSpec;
-    
-    //------------------------ Méthodes publiques ------------------------------
-    
-    // Constructeurs
 
     public CompetenceG() {}
 
@@ -47,8 +31,6 @@ public class CompetenceG implements Serializable
         this.seuilMax = seuilMax;
         this.compSpec = compSpec;
     }
-    
-    // Getters
     
     public String getId() {
         return id;
@@ -73,8 +55,6 @@ public class CompetenceG implements Serializable
     public List<CompetenceS> getCompSpec() {
         return compSpec;
     }
-    
-    // Setters
 
     public void setLibelle(String libelle) {
         this.libelle = libelle;
@@ -91,8 +71,6 @@ public class CompetenceG implements Serializable
     public void setSeuilMax(Double seuilMax) {
         this.seuilMax = seuilMax;
     }
-    
-    // Autres méthodes publiques
 
     @Override
     public String toString() {
